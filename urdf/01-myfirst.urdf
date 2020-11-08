@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<robot name="origins" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="M_PI" value="3.1415926535897931"/>
+
+  <xacro:macro name='ball' params='xyz parent child'>
+  	<link name='${child}_l_th'/>
+  	<link name='${child}_l_ps'/>
+	<joint name="${child}_th" type='revolute'>
+  		<parent link='${parent}'/>
+  		<child link='${child}_l_th'/>
+  		<origin xyz="${xyz}"/>
+		<axis xyz='1 0 0'/>
+		<limit lower='${-M_PI/2}' upper='${M_PI/2}' effort='100' velocity='100'/>
+  	</joint>
+	<joint name="${child}_ps" type='revolute'>
+  		<parent link='${child}_l_th'/>
+  		<child link='${child}_l_ps'/>
+  		<origin xyz="0 0 0"/>
+		<axis xyz='0 1 0'/>
+		<limit lower='${-M_PI/2}' upper='${M_PI/2}' effort='100' velocity='100'/>
+  	</joint>
+	<joint name="${child}_ga" type='revolute'>
+  		<parent link='${child}_l_ps'/>
+  		<child link='${child}'/>
+  		<origin xyz="0 0 0"/>
+		<axis xyz='0 0 1'/>
+		<limit lower='${-M_PI/2}' upper='${M_PI/2}' effort='100' velocity='100'/>
+  	</joint>
+  </xacro:macro>
+
+  <material name='blue'>
+  	<color rgba='0 0 1 1'/>
+  </material>
+
+  <material name='green'>
+  	<color rgba='0 1 0 1'/>
+  </material>
+
+  
+  <link name="base_link"/>
+
+  <link name="p1c">
+  	<visual>
+  		<geometry>
+  			<cylinder length="0.4" radius="0.01"/>
+  		</geometry>
+  		<origin rpy="0 0 0" xyz="0 0 0.2"/>
+  		<material name='blue'/>
+  	</visual>
+  </link>
+
+  <link name="p2c">
+  	<visual>
+  		<geometry>
+  			<cylinder length="0.4" radius="0.01"/>
+  		</geometry>
+  		<origin rpy="0 0 0" xyz="0 0 0.2"/>
+  		<material name='blue'/>
+  	</visual>
+  </link>
+
+  <link name="p3c">
+  	<visual>
+  		<geometry>
+  			<cylinder length="0.4" radius="0.01"/>
+  		</geometry>
+  		<origin rpy="0 0 0" xyz="0 0 0.2"/>
+  		<material name='blue'/>
+  	</visual>
+  </link>
+  
+  
+  <xacro:ball xyz='0 0 0' parent='base_link' child='p1c'/>
+  <xacro:ball xyz='0 0 0.4' parent='p1c' child='p2c'/>
+  <xacro:ball xyz='0 0 0.4' parent='p2c' child='p3c'/>
+
+  
+  
+</robot>
